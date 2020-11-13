@@ -61,19 +61,6 @@ public class MainActivity extends AppCompatActivity {
         // String url = "http://pz6twp8s0.bkt.clouddn.com/%E6%AD%8C%E8%AF%8D.txt";
         // lrcView.loadLrcByUrl(url, "gb2312");
 
-        lrcView.setDraggable(true, (view, time) -> {
-            mediaPlayer.seekTo((int) time);
-            if (!mediaPlayer.isPlaying()) {
-                mediaPlayer.start();
-                handler.post(runnable);
-            }
-            return true;
-        });
-
-        lrcView.setOnTapListener((view, x, y) -> {
-            Toast.makeText(this, "点击歌词", Toast.LENGTH_SHORT).show();
-        });
-
         btnPlayPause.setOnClickListener(v -> {
             if (!mediaPlayer.isPlaying()) {
                 mediaPlayer.start();

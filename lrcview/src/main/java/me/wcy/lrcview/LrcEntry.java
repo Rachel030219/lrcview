@@ -27,6 +27,7 @@ class LrcEntry implements Comparable<LrcEntry> {
     private String text;
     private String secondText;
     private StaticLayout staticLayout;
+    private StaticLayout staticStrokeLayout;
     /**
      * 歌词距离视图顶部的距离
      */
@@ -46,7 +47,7 @@ class LrcEntry implements Comparable<LrcEntry> {
         this.secondText = secondText;
     }
 
-    void init(TextPaint paint, int width, int gravity) {
+    void init(TextPaint paint, TextPaint strokePaint, int width, int gravity) {
         Layout.Alignment align;
         switch (gravity) {
             case GRAVITY_LEFT:
@@ -63,6 +64,7 @@ class LrcEntry implements Comparable<LrcEntry> {
                 break;
         }
         staticLayout = new StaticLayout(getShowText(), paint, width, align, 1f, 0f, false);
+        staticStrokeLayout = new StaticLayout(getShowText(), strokePaint, width, align, 1f, 0f, false);
 
         offset = Float.MIN_VALUE;
     }
@@ -73,6 +75,10 @@ class LrcEntry implements Comparable<LrcEntry> {
 
     StaticLayout getStaticLayout() {
         return staticLayout;
+    }
+
+    StaticLayout getStaticStrokeLayout() {
+        return staticStrokeLayout;
     }
 
     int getHeight() {

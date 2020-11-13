@@ -26,5 +26,3 @@ android {
         targetCompatibility = 1.8
     }
 }
-
-apply from: 'jcenter.gradle'

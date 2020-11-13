@@ -21,10 +21,7 @@
         app:lrcNormalTextSize="15sp"
         app:lrcPadding="16dp"
         app:lrcTextGravity="center"
-        app:lrcTextSize="15sp"
-        app:lrcTimeTextColor="#BDBDBD"
-        app:lrcTimelineColor="#80BDBDBD"
-        app:lrcTimelineTextColor="#9FA8DA" />
+        app:lrcTextSize="15sp"/>
 
     <SeekBar
         android:id="@+id/progress_bar"

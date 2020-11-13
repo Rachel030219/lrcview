@@ -43,58 +43,6 @@ class LrcUtils {
     private static final Pattern PATTERN_TIME = Pattern.compile("\\[(\\d\\d):(\\d\\d)\\.(\\d{2,3})\\]");
 
     /**
-     * 从文件解析双语歌词
-     */
-    static List<LrcEntry> parseLrc(File[] lrcFiles) {
-        if (lrcFiles == null || lrcFiles.length != 2 || lrcFiles[0] == null) {
-            return null;
-        }
-
-        File mainLrcFile = lrcFiles[0];
-        File secondLrcFile = lrcFiles[1];
-        List<LrcEntry> mainEntryList = parseLrc(mainLrcFile);
-        List<LrcEntry> secondEntryList = parseLrc(secondLrcFile);
-
-        if (mainEntryList != null && secondEntryList != null) {
-            for (LrcEntry mainEntry : mainEntryList) {
-                for (LrcEntry secondEntry : secondEntryList) {
-                    if (mainEntry.getTime() == secondEntry.getTime()) {
-                        mainEntry.setSecondText(secondEntry.getText());
-                    }
-                }
-            }
-        }
-        return mainEntryList;
-    }
-
-    /**
-     * 从文件解析歌词
-     */
-    private static List<LrcEntry> parseLrc(File lrcFile) {
-        if (lrcFile == null || !lrcFile.exists()) {
-            return null;
-        }
-
-        List<LrcEntry> entryList = new ArrayList<>();
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(lrcFile), "utf-8"));
-            String line;
-            while ((line = br.readLine()) != null) {
-                List<LrcEntry> list = parseLine(line);
-                if (list != null && !list.isEmpty()) {
-                    entryList.addAll(list);
-                }
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Collections.sort(entryList);
-        return entryList;
-    }
-
-    /**
      * 从文本解析双语歌词
      */
     static List<LrcEntry> parseLrc(String[] lrcTexts) {
@@ -145,35 +93,6 @@ class LrcUtils {
     }
 
     /**
-     * 获取网络文本，需要在工作线程中执行
-     */
-    static String getContentFromNetwork(String url, String charset) {
-        String lrcText = null;
-        try {
-            URL _url = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) _url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setConnectTimeout(10000);
-            conn.setReadTimeout(10000);
-            if (conn.getResponseCode() == 200) {
-                InputStream is = conn.getInputStream();
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                byte[] buffer = new byte[1024];
-                int len;
-                while ((len = is.read(buffer)) != -1) {
-                    bos.write(buffer, 0, len);
-                }
-                is.close();
-                bos.close();
-                lrcText = bos.toString(charset);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return lrcText;
-    }
-
-    /**
      * 解析一行歌词
      */
     private static List<LrcEntry> parseLine(String line) {
@@ -207,17 +126,6 @@ class LrcUtils {
             entryList.add(new LrcEntry(time, text));
         }
         return entryList;
-    }
-
-    /**
-     * 转为[分:秒]
-     */
-    static String formatTime(long milli) {
-        int m = (int) (milli / DateUtils.MINUTE_IN_MILLIS);
-        int s = (int) ((milli / DateUtils.SECOND_IN_MILLIS) % 60);
-        String mm = String.format(Locale.getDefault(), "%02d", m);
-        String ss = String.format(Locale.getDefault(), "%02d", s);
-        return mm + ":" + ss;
     }
 
     static void resetDurationScale() {
