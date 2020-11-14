@@ -118,6 +118,8 @@ public class LrcView extends View {
         mLrcStrokePaint.setTextAlign(Paint.Align.LEFT);
         mLrcStrokePaint.setColor(mCurrentTextStrokeColor);
         mLrcStrokePaint.setStrokeWidth(mCurrentTextStrokeWidth);
+        mLrcStrokePaint.setStrokeJoin(Paint.Join.ROUND);
+        mLrcStrokePaint.setStrokeMiter(10);
 
         mScroller = new Scroller(getContext());
     }
@@ -287,6 +289,9 @@ public class LrcView extends View {
         super.onDraw(canvas);
 
         int centerY = getHeight() / 2;
+
+        mLrcStrokePaint.setColor(mCurrentTextStrokeColor);
+        mLrcStrokePaint.setStrokeWidth(mCurrentTextStrokeWidth);
 
         // 无歌词文件
         if (!hasLrc()) {
