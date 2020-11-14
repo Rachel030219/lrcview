@@ -53,6 +53,8 @@ public class LrcView extends View {
     private float mNormalTextSize;
     private int mCurrentTextColor;
     private float mCurrentTextSize;
+    private int mCurrentTextStrokeColor;
+    private float mCurrentTextStrokeWidth;
     private int mDrawableWidth;
     private int mTimeTextWidth;
     private String mDefaultLabel;
@@ -94,8 +96,8 @@ public class LrcView extends View {
         mAnimationDuration = (mAnimationDuration < 0) ? defDuration : mAnimationDuration;
         mNormalTextColor = ta.getColor(R.styleable.LrcView_lrcNormalTextColor, getResources().getColor(R.color.lrc_normal_text_color));
         mCurrentTextColor = ta.getColor(R.styleable.LrcView_lrcCurrentTextColor, getResources().getColor(R.color.lrc_current_text_color));
-        int mCurrentTextStrokeColor = ta.getColor(R.styleable.LrcView_lrcCurrentTextStrokeColor, getResources().getColor(R.color.lrc_current_text_stroke_color));
-        float mCurrentTextStrokeWidth = ta.getDimension(R.styleable.LrcView_lrcCurrentTextStrokeWidth, 5);
+        mCurrentTextStrokeColor = ta.getColor(R.styleable.LrcView_lrcCurrentTextStrokeColor, getResources().getColor(R.color.lrc_current_text_stroke_color));
+        mCurrentTextStrokeWidth = ta.getDimension(R.styleable.LrcView_lrcCurrentTextStrokeWidth, 5);
         mDefaultLabel = ta.getString(R.styleable.LrcView_lrcLabel);
         mDefaultLabel = TextUtils.isEmpty(mDefaultLabel) ? getContext().getString(R.string.lrc_label) : mDefaultLabel;
         mLrcPadding = ta.getDimension(R.styleable.LrcView_lrcPadding, 0);
@@ -147,6 +149,22 @@ public class LrcView extends View {
      */
     public void setCurrentColor(int currentColor) {
         mCurrentTextColor = currentColor;
+        postInvalidate();
+    }
+
+    /**
+     * 设置当前行歌词的描边颜色
+     */
+    public void setCurrentTextStrokeColor(int currentStrokeColor) {
+        mCurrentTextStrokeColor = currentStrokeColor;
+        postInvalidate();
+    }
+
+    /**
+     * 设置当前行歌词的描边宽度
+     */
+    public void setCurrentTextStrokeWidth(float currentTextStrokeWidth) {
+        mCurrentTextStrokeWidth = currentTextStrokeWidth;
         postInvalidate();
     }
 
